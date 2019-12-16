@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 
 
 const MortgageFormContainer = ({ formData, formUpdate }) => {
-
     const valueUpdateCB = (label, value) => {
+        console.log("Label: " + label + " | value: " + value);
         if (!isNaN(value)) {
             formUpdate(label, value);
         }

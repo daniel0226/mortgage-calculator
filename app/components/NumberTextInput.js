@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { TextInput, View } from 'react-native';
+import {StyleSheet, TextInput, View } from 'react-native';
 
 const NumberTextInput = ({label, value, valueUpdateCB}) => {
-    function removeNonNumericValues(value, valueUpdateCB) {
-        if (!value) {
-            return;
-        }
-
-        console.log('NumberTextInput Value: ' + value);
-        console.log('NumberTextInput Value: ' + value);
+    //console.log(label + " " + value + " @ " + valueUpdateCB);
+    //Label = mortgage years, value = num, valueUpdateCB = function
+    function removeNonNumericValues(label, value, valueUpdateCB) {
+        if (!value)return;
 
         const regexNotNumberOrDot = /[^0-9.]/g;
         const regexLeadingNumber = /^0+/;
@@ -17,12 +14,32 @@ const NumberTextInput = ({label, value, valueUpdateCB}) => {
         value.replace(regexNotNumberOrDot, '');
         value.replace(regexLeadingNumber, '');
 
-        return valueUpdateCB(value);
+        return valueUpdateCB(label, value);
     }
 
+    const numStyle = StyleSheet.create({
+        numContainer: {
+            backgroundColor:    'white',
+            width:              '26.333%',
+            display:            'flex',
+            position:           'relative',
+            flexDirection:      'row',
+            shadowColor:        'black',
+            shadowOffset:       {width:0, height:0},
+            shadowOpacity:      0.45,
+            shadowRadius:       2,
+        },
+        numFont:{
+            fontSize:           30,
+            paddingLeft:        5,
+            width:              '100%',
+        }
+    });
+
     return (
-        <View>
+        <View style={numStyle.numContainer}>
             <TextInput
+                style={numStyle.numFont}
                 value={value.toString()}
                 onChangeText={text => removeNonNumericValues(label, text, valueUpdateCB)}
                 keyboardType={'numeric'}

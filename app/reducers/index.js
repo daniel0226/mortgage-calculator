@@ -18,7 +18,7 @@ const initialState = {
 };
 
 export default function mainReducer(state = initialState, action) {
-    switch (action) {
+    switch (action.type) {
         case constants.FORM_UPDATE:
             console.log('FORM UPDATE CALLED');
             break;
