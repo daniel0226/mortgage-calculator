@@ -1,39 +1,42 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import { TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from "react-native";
+import { numStyle } from "../Styles/style";
 
-const NumberTextInput = ({label, value, valueUpdateCB}) => {
-    function removeNonNumericValues(value, valueUpdateCB) {
-        if (!value) {
-            return;
-        }
+const NumberTextInput = ({ label, value, valueUpdateCB }) => {
+  //console.log(label + " " + value + " @ " + valueUpdateCB);
+  //Label = mortgage years, value = num, valueUpdateCB = function
+  function removeNonNumericValues(label, value, valueUpdateCB) {
+    if (!value) {
+      value = 0;
+    } else {
+      const regexNotNumberOrDot = /[^0-9.]/g;
+      const regexLeadingNumber = /^0+/;
 
-        console.log('NumberTextInput Value: ' + value);
-        console.log('NumberTextInput Value: ' + value);
-
-        const regexNotNumberOrDot = /[^0-9.]/g;
-        const regexLeadingNumber = /^0+/;
-
-        value.replace(regexNotNumberOrDot, '');
-        value.replace(regexLeadingNumber, '');
-
-        return valueUpdateCB(value);
+      value = value.replace(regexNotNumberOrDot, "");
+      value = value.replace(regexLeadingNumber, "");
     }
+    return valueUpdateCB(label, value);
+  }
 
-    return (
-        <View>
-            <TextInput
-                value={value.toString()}
-                onChangeText={text => removeNonNumericValues(label, text, valueUpdateCB)}
-                keyboardType={'numeric'}
-            />
-        </View>
-    );
+  return (
+    <View style={numStyle.numContainer}>
+      <TextInput
+        style={numStyle.numFont}
+        value={value.toString()}
+        onChangeText={text =>
+          removeNonNumericValues(label, text, valueUpdateCB)
+        }
+        keyboardType={"numeric"}
+        returnKeyType={"done"}
+      />
+    </View>
+  );
 };
 
 NumberTextInput.propTypes = {
-    value: PropTypes.number.isRequired,
-    valueUpdateCB: PropTypes.func.isRequired
+  value: PropTypes.number.isRequired,
+  valueUpdateCB: PropTypes.func.isRequired
 };
 
 export default NumberTextInput;
